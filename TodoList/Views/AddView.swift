@@ -11,7 +11,7 @@ struct AddView: View {
     
     @State var textFieldText: String = ""
     
-    @Binding var listItems: [String]
+    @Binding var listItems: [ItemModel]
     
     var body: some View {
         ScrollView {
@@ -23,7 +23,7 @@ struct AddView: View {
                     .cornerRadius(10)
                 
                 Button(action: {
-                    listItems.append(textFieldText)
+                    listItems.append(ItemModel(title: textFieldText, isCompleted: false))
                 }, label: {
                     Text("save".uppercased())
                         .font(.headline)

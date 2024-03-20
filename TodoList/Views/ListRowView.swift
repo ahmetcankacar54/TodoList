@@ -9,25 +9,27 @@ import SwiftUI
 
 struct ListRowView: View {
     
-    @State var listText: String
-    
-    @State var listItemIsChecked: Bool = false
+    @State var item: ItemModel
     
     var body: some View {
         HStack {
-            Text(listText)
+            Text(item.title)
             Spacer()
-            Image(systemName: listItemIsChecked ? "checkmark.circle" : "circle")
+            Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
+                .foregroundColor(item.isCompleted ? .green : .black)
                 .onTapGesture {
-                    listItemIsChecked.toggle()
+                    
                 }
         }
+        .font(.title2)
+        .padding(.vertical, 8)
     }
 }
 
 
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ListRowView(listText: "Example Text")
+        ListRowView(item: ItemModel(title: "sample title ", isCompleted: false))
     }
 }
+
