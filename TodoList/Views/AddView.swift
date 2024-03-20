@@ -9,9 +9,13 @@ import SwiftUI
 
 struct AddView: View {
     
+    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject var listViewObject: ListViewModel
     @State var textFieldText: String = ""
     
-    @Binding var listItems: [ItemModel]
+    @State private var showAlert: Bool = false
+    @State private var alertTitle: String = " "
+    
     
     var body: some View {
         ScrollView {
@@ -22,9 +26,7 @@ struct AddView: View {
                     .background(Color(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)))
                     .cornerRadius(10)
                 
-                Button(action: {
-                    listItems.append(ItemModel(title: textFieldText, isCompleted: false))
-                }, label: {
+                Button(action: saveButtonPressed, label: {
                     Text("save".uppercased())
                         .font(.headline)
                         .frame(height: 55)
@@ -35,9 +37,40 @@ struct AddView: View {
                 })
             }
             .padding(14)
+            .alert(isPresented: $showAlert, content: getAlert)
         }
         .navigationTitle("Add an Item 🖋")
+    }
+    
+    func saveButtonPressed() {
+        if textIsAppropriate(){
+            listViewObject.addItem(title: textFieldText)
+            presentationMode.wrappedValue.dismiss()
+            print("success")
+        }
+        
+    }
+    
+    func textIsAppropriate() -> Bool {
+        if textFieldText.count < 3 {
+            alertTitle = "New todo item must be at least 3 characters long!!! 😱"
+            showAlert.toggle()
+            return false
+        }
+        return true
+    }
+    
+    func getAlert() -> Alert {
+        return Alert(title: Text(alertTitle))
     }
 }
 
 
+struct AddView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView(content: {
+            AddView()
+        })
+        .environmentObject(ListViewModel())
+    }
+}

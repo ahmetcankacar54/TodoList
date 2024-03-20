@@ -9,19 +9,16 @@ import SwiftUI
 
 struct ListView: View {
     
-    @State var listItems: [ItemModel] = [
-        ItemModel(title: "List item numero uno", isCompleted: false),
-        ItemModel(title: "List item numero dos", isCompleted: false),
-        ItemModel(title: "List item numero tres", isCompleted: false),
-        ItemModel(title: "List item numero quattro", isCompleted: false),
-    ]
+    @EnvironmentObject var listViewModel: ListViewModel
+    
     
     var body: some View {
-        NavigationView {
             List {
-                ForEach(listItems) { listItem in
-                    ListRowView(item: listItem)
+                ForEach(listViewModel.listItems) { item in
+                    ListRowView(item: item)
                 }
+                .onDelete(perform: listViewModel.deleteItem)
+                .onMove(perform: listViewModel.moveItem)
             }
             .navigationTitle("Todo List 📝")
             .toolbar {
@@ -30,12 +27,11 @@ struct ListView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddView(listItems: $listItems), label: {
+                    NavigationLink(destination: AddView(), label: {
                         Text("Add")
                     })
                 }
             }
-        }
         
     }
     
@@ -43,7 +39,10 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
+        NavigationView(content: {
+            ListView()
+        })
+        .environmentObject(ListViewModel())
     }
 }
 

@@ -18,8 +18,11 @@ struct ListRowView: View {
             Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
                 .foregroundColor(item.isCompleted ? .green : .black)
                 .onTapGesture {
-                    
+                    item.isCompleted.toggle()
                 }
+                .contextMenu(menuItems: {
+                    ExtractedView()
+                })
         }
         .font(.title2)
         .padding(.vertical, 8)
@@ -33,3 +36,9 @@ struct ListRowView_Previews: PreviewProvider {
     }
 }
 
+
+struct ExtractedView: View {
+    var body: some View {
+        Text("Edit ✏️")
+    }
+}
