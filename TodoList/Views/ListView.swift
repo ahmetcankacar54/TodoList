@@ -30,6 +30,7 @@ struct ListView: View {
                 foregroundLayer
             }
         }
+        .frame(maxWidth: 400)
         .navigationTitle("Todo List 📝")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
@@ -77,6 +78,7 @@ struct ListView_Previews: PreviewProvider {
         NavigationView(content: {
             ListView()
         })
+        .navigationViewStyle(StackNavigationViewStyle())
         .environmentObject(ListViewModel())
     }
 }

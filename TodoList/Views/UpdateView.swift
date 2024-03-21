@@ -47,7 +47,7 @@ struct UpdateView: View {
                 .focused($fieldInFocus, equals: .itemTitle)
                 .padding()
                 .frame(height: 55)
-                .background(Color(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)))
+                .background(Color(UIColor.secondarySystemBackground))
                 .cornerRadius(10)
                 .onAppear {
                     fieldInFocus = .itemTitle
