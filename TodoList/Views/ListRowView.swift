@@ -9,10 +9,15 @@ import SwiftUI
 
 struct ListRowView: View {
     
+    // MARK: PROPERTIES
+    
     let item: ItemModel
     
     
+    // MARK: BODY
     var body: some View {
+        
+        // foreground
         HStack {
             Text(item.title)
             Spacer()
