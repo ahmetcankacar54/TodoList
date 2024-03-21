@@ -59,7 +59,7 @@ struct UpdateView: View {
                     .frame(height: 55)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .background(.blue)
+                    .background(Color.accentColor)
                     .cornerRadius(10)
             })
             Spacer()

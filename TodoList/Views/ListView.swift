@@ -13,7 +13,7 @@ struct ListView: View {
     
     @EnvironmentObject var listViewModel: ListViewModel
     
-    @State private var detens: PresentationDetent = .medium
+    @State private var detens: PresentationDetent = .fraction(0.25)
     @State private var localItem: ItemModel?
     
     
@@ -21,19 +21,28 @@ struct ListView: View {
     var body: some View {
         
         // foreground
-        foregroundLayer
-            .navigationTitle("Todo List 📝")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddView(), label: {
-                        Text("Add")
-                    })
-                }
+        
+        ZStack {
+            if listViewModel.listItems.isEmpty {
+                NoItemsView()
+                    .transition(AnyTransition.opacity.animation(.easeIn.delay(0.25)))
+            } else {
+                foregroundLayer
             }
+        }
+        .navigationTitle("Todo List 📝")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                EditButton()
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: AddView(), label: {
+                    Text("Add")
+                })
+            }
+        }
+            
     }
     
     /// This foreground holds to do items in a List.
@@ -56,7 +65,7 @@ struct ListView: View {
             .onMove(perform: listViewModel.moveItem)
             .sheet(item: $localItem) { item in
                 UpdateView(item: item)
-                    .presentationDetents([.medium, .large], selection: $detens)
+                    .presentationDetents([.fraction(0.25), .medium], selection: $detens)
             }
         } // END: LIST
     }

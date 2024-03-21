@@ -9,6 +9,10 @@ import SwiftUI
 
 struct AddView: View {
     
+    enum UpdateFields {
+    case itemTitle
+    }
+    
     // MARK: PROPERTIES
     
     @Environment(\.presentationMode) private var presentationMode
@@ -17,6 +21,7 @@ struct AddView: View {
     
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = " "
+    @FocusState private var fieldInFocus: UpdateFields?
     
     
     // MARK: BODY
@@ -30,10 +35,14 @@ struct AddView: View {
         ScrollView { // START: SCROLLVIEW
             VStack { // START: VSTACK
                 TextField("Add a new list item", text: $textFieldText)
+                    .focused($fieldInFocus, equals: .itemTitle)
                     .padding()
                     .frame(height: 55)
                     .background(Color(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)))
                     .cornerRadius(10)
+                    .onAppear {
+                        fieldInFocus = .itemTitle
+                    }
                 
                 Button(action: saveButtonPressed, label: {
                     Text("save".uppercased())
@@ -41,7 +50,7 @@ struct AddView: View {
                         .frame(height: 55)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
-                        .background(.blue)
+                        .background(Color.accentColor)
                         .cornerRadius(10)
                 })
             } // END: VSTACK
