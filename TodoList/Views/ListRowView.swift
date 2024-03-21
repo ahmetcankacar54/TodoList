@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ListRowView: View {
     
-    @State var item: ItemModel
+    let item: ItemModel
+    
     
     var body: some View {
         HStack {
@@ -17,12 +18,6 @@ struct ListRowView: View {
             Spacer()
             Image(systemName: item.isCompleted ? "checkmark.circle" : "circle")
                 .foregroundColor(item.isCompleted ? .green : .black)
-                .onTapGesture {
-                    item.isCompleted.toggle()
-                }
-                .contextMenu(menuItems: {
-                    ExtractedView()
-                })
         }
         .font(.title2)
         .padding(.vertical, 8)
@@ -32,13 +27,6 @@ struct ListRowView: View {
 
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ListRowView(item: ItemModel(title: "sample title ", isCompleted: false))
-    }
-}
-
-
-struct ExtractedView: View {
-    var body: some View {
-        Text("Edit ✏️")
+        ListRowView(item: ItemModel(title: "Example title ", isCompleted: false))
     }
 }

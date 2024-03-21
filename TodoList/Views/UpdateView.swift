@@ -1,33 +1,38 @@
 //
-//  AddView.swift
+//  UpdateView.swift
 //  TodoList
 //
-//  Created by Ahmet Kaçar on 20.03.2024.
+//  Created by Ahmet Kaçar on 21.03.2024.
 //
 
 import SwiftUI
 
-struct AddView: View {
+struct UpdateView: View {
     
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject var listViewObject: ListViewModel
-    @State var textFieldText: String = ""
+    
+   
     
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = " "
     
+    @State private var textFieldText: String = ""
+    let item: ItemModel
     
     var body: some View {
-        ScrollView {
+        ZStack {
+            Color.gray.ignoresSafeArea()
+            
             VStack {
-                TextField("Add a new list item", text: $textFieldText)
+                TextField(item.title, text: $textFieldText)
                     .padding()
                     .frame(height: 55)
                     .background(Color(#colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)))
                     .cornerRadius(10)
                 
                 Button(action: saveButtonPressed, label: {
-                    Text("save".uppercased())
+                    Text("update".uppercased())
                         .font(.headline)
                         .frame(height: 55)
                         .frame(maxWidth: .infinity)
@@ -35,16 +40,16 @@ struct AddView: View {
                         .background(.blue)
                         .cornerRadius(10)
                 })
+                Spacer()
             }
             .padding(14)
-            .alert(isPresented: $showAlert, content: getAlert)
         }
-        .navigationTitle("Add an Item 🖋")
     }
+    
     
     func saveButtonPressed() {
         if textIsAppropriate(){
-            listViewObject.addItem(title: textFieldText)
+            listViewObject.updateItem(item: ItemModel(id: item.id, title: textFieldText, isCompleted: item.isCompleted))
             presentationMode.wrappedValue.dismiss()
         }
         
@@ -52,7 +57,7 @@ struct AddView: View {
     
     func textIsAppropriate() -> Bool {
         if textFieldText.count < 3 {
-            alertTitle = "New todo item must be at least 3 characters long!!! 😨😰😱"
+            alertTitle = "Updated todo item must be at least 3 characters long!!! 😨😰😱"
             showAlert.toggle()
             return false
         }
@@ -64,12 +69,9 @@ struct AddView: View {
     }
 }
 
-
-struct AddView_Previews: PreviewProvider {
+struct UpdateView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView(content: {
-            AddView()
-        })
-        .environmentObject(ListViewModel())
+        UpdateView(item: ItemModel(title: "Update title", isCompleted: false))
+            .environmentObject(ListViewModel())
     }
 }
