@@ -1,6 +1,6 @@
 TodoList: Conquer Your Tasks with SwiftUI and MVVM
 
-Video of TodoList app in action: https://github.com/ahmetcankacar54/TodoList/assets/47081036/a8f1db44-6d09-4a42-ae14-f220962de4f0
+[Video of TodoList app in action:](https://github.com/ahmetcankacar54/TodoList/assets/47081036/a8f1db44-6d09-4a42-ae14-f220962de4f0)
 
 This project is a powerful yet easy-to-use to-do list application built for iOS. It leverages the modern capabilities of SwiftUI and the MVVM architecture pattern to deliver a smooth and efficient user experience. Developed between March 15th and 25th, 2024, TodoList is your one-stop shop for managing your tasks with ease.
 
